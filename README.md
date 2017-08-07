@@ -18,11 +18,11 @@
 
 Add this repository to your composer.json
 
-```json
+```javascript
 // composer.json
 {
     //..
-    repositories: [
+    "repositories": [
         {
             "type": "vcs",
             "url": "https://github.com/Fahrenheit451Tecnologia/tm-rbac-bundle"

@@ -1,0 +1,16 @@
+TM\RbacBundle\Model\Permission:
+    table: tm_rbac_permission
+    type: entity
+    repositoryClass: TM\RbacBundle\Repository\PermissionRepository
+    id:
+        id:
+            type: string
+            length: 150
+            generator:
+                strategy: NONE
+    fields:
+        name:
+            column: permission_name
+            type: string
+            length: 255
+            uniquie: true

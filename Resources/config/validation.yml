@@ -1,0 +1,4 @@
+TM\RbacBundle\Model\Role:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: name

@@ -1,0 +1,35 @@
+tm_rbac_user_list_with_permission:
+    path: /with-permission/{permissionId}
+    methods: [GET]
+    defaults:
+        _controller: tm_rbac.controller.user::listUsersWithPermissionAction
+
+tm_rbac_user_add_permission:
+    path: /{id}/add-permission/{permissionId}
+    methods: [POST]
+    defaults:
+        _controller: tm_rbac.controller.user::addPermissionToUserAction
+
+tm_rbac_user_remove_permission:
+    path: /{id}/remove-permission/{permissionId}
+    methods: [GET]
+    defaults:
+        _controller: tm_rbac.controller.user::removePermissionFromUserAction
+
+tm_rbac_user_list_with_role:
+    path: /with-permission/{roleId}
+    methods: [GET]
+    defaults:
+        _controller: tm_rbac.controller.user::listUsersWithPermissionAction
+
+tm_rbac_user_add_role:
+    path: /{id}/add-permission/{roleId}
+    methods: [POST]
+    defaults:
+        _controller: tm_rbac.controller.user::addRoleToUserAction
+
+tm_rbac_user_remove_role:
+    path: /{id}/remove-permission/{roleId}
+    methods: [GET]
+    defaults:
+        _controller: tm_rbac.controller.user::removeRoleFromUserAction

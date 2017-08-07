@@ -1,0 +1,51 @@
+services:
+    tm_rbac.provider.repository:
+        class: TM\RbacBundle\Repository\RepositoryProvider
+        arguments:
+            - '@doctrine'
+            - '%tm_rbac.model.permission.class%'
+            - '%tm_rbac.model.role.class%'
+            - '%tm_rbac.model.user.class%'
+
+    tm_rbac.event_listener.permission:
+        class: TM\RbacBundle\EventListener\PermissionListener
+        arguments:
+            - '@annotation_reader'
+            - '%tm_rbac.permissions%'
+            - '@security.authorization_checker'
+
+    tm_rbac.form.type.permission_entity_choice:
+        class: TM\RbacBundle\Form\Type\PermissionEntityChoiceType
+        arguments:
+            - '%tm_rbac.model.permission.class%'
+
+    tm_rbac.form.type.role_entity_choice:
+        class: TM\RbacBundle\Form\Type\RoleEntityChoiceType
+        arguments:
+            - '%tm_rbac.model.role.class%'
+
+    tm_rbac.security.voter.permission:
+        class: TM\RbacBundle\Security\Voter\PermissionVoter
+        arguments:
+            - '@tm_rbac.provider.repository'
+        tags:
+            - { name: 'security.voter' }
+
+    tm_rbac.controller.permission:
+        class: TM\RbacBundle\Controller\PermissionController
+        arguments:
+            - '@tm_rbac.provider.repository'
+            - '@fos_rest.view_handler'
+
+    tm_rbac.controller.role:
+        class: TM\RbacBundle\Controller\RoleController
+        arguments:
+            - '@form.factory'
+            - '@tm_rbac.provider.repository'
+            - '@fos_rest.view_handler'
+
+    tm_rbac.controller.user:
+        class: TM\RbacBundle\Controller\UserController
+        arguments:
+            - '@tm_rbac.provider.repository'
+            - '@fos_rest.view_handler'

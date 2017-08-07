@@ -67,6 +67,8 @@ to make it easier to create your entity. Here is how you use it:
 practices. However, you can of course place *your* `Role` class in the bundle
 you want.
 
+"Use" `UserTrait` in *your* `User` class.
+
 ```php
 <?php
 // src/AppBundle/Entity/User
@@ -82,32 +84,7 @@ class User
 }
 ```
 
-    /**
-     * @ORM\ManyToMany(targetEntity="\TM\RbacBundle\Model\PermissionInterface")
-     * @ORM\JoinTable(name="tm_user_permission",
-     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="permission_id", referencedColumnName="id")}
-     * )
-     * @JsonApi\HasMany(includeByDefault=false)
-     *
-     * @var ArrayCollection|PermissionInterface[]
-     */
-    protected $userPermissions;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="\TM\RbacBundle\Model\RoleInterface")
-     * @ORM\JoinTable(name="tm_user_role",
-     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
-     * )
-     * @JsonApi\HasMany(includeByDefault=false)
-     * @Serializer\Expose
-     *
-     * @var ArrayCollection|RoleInterface[]
-     */
-    protected $userRoles;
-
-
+Add `User` mapping to your mapping.
 
 ```yaml
 # src/AppBundle/Resources/config/doctrine/User.orm.yml

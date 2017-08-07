@@ -28,7 +28,7 @@ Add this repository to your composer.json
             "url": "https://github.com/Fahrenheit451Tecnologia/tm-rbac-bundle"
         }
     ],
-   //...
+    //...
 }
 ```
 
@@ -95,22 +95,22 @@ AppBundle\Entity\User:
             targetEntity: TM\RbacBundle\Model\Permission
             joinTable:
             	name: tm_rbac_user_permissions
-        		joinColumns:
-          			user_id:
-            			referencedColumnName: id
-        		inverseJoinColumns:
-          			permission_id:
-            			referencedColumnName: id
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    permission_id:
+                        referencedColumnName: id
         userRoles:
             targetEntity: TM\RbacBundle\Model\Role
             joinTable:
-            	name: tm_rbac_user_roles
-        		joinColumns:
-          			user_id:
-            			referencedColumnName: id
-        		inverseJoinColumns:
-          			role_id:
-            			referencedColumnName: id
+                name: tm_rbac_user_roles
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    role_id:
+                        referencedColumnName: id
 ```
 
 ### Step 4. Configure the TMRbacBundle
@@ -119,15 +119,15 @@ AppBundle\Entity\User:
 # app/config/config.yml
 
 tm_rbac:
-	models:
+    models:
         # Add you user model class name
-    	user: AppBundle\Model\User
+        user: AppBundle\Model\User
     listeners:
         # Set whether you want to use the permissions listener to listen for
         # controller actions using the @Permission annotiation
-    	permission: true|false
+        permission: true|false
     permissions:
-    	# list all of your permissions in a key => value format
+        # list all of your permissions in a key => value format
         # permissions keys can contain only lower case characters and underscores
         a_permission: A Permission
         a_different_permission: A Different Permission
@@ -144,7 +144,7 @@ tm_rbac:
 ### Step 6. Update your database schema
 
 ```bash
-    $ php bin/console doctrine:schema:update --force
+$ php bin/console doctrine:schema:update --force
 ```
 
 ## Licence

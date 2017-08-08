@@ -2,8 +2,6 @@
 
 namespace TM\RbacBundle\Form\Type;
 
-use TM\RbacBundle\Form\AbstractEntityChoiceType;
-
 class RoleEntityChoiceType extends AbstractEntityChoiceType
 {
     /**

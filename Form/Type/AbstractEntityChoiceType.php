@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace TM\RbacBundle\Form;
+namespace TM\RbacBundle\Form\Type;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

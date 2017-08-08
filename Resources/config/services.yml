@@ -18,11 +18,15 @@ services:
         class: TM\RbacBundle\Form\Type\PermissionEntityChoiceType
         arguments:
             - '%tm_rbac.model.permission.class%'
+        tags:
+            - { name: form.type }
 
     tm_rbac.form.type.role_entity_choice:
         class: TM\RbacBundle\Form\Type\RoleEntityChoiceType
         arguments:
             - '%tm_rbac.model.role.class%'
+        tags:
+            - { name: form.type }
 
     tm_rbac.security.voter.permission:
         class: TM\RbacBundle\Security\Voter\PermissionVoter

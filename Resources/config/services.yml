@@ -28,6 +28,7 @@ services:
         class: TM\RbacBundle\Security\Voter\PermissionVoter
         arguments:
             - '@tm_rbac.provider.repository'
+            - '%tm_rbac.permissions%'
         tags:
             - { name: 'security.voter' }
 

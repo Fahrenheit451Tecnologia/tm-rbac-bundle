@@ -35,7 +35,7 @@ Add this repository to your composer.json
 Require the bundle using the command line
 
 ```cli
-$ composer require tm/tm-rbac-bundle
+$ composer require timemanager/rbac-bundle
 ```
 
 ### Step 2. Enable the bundle

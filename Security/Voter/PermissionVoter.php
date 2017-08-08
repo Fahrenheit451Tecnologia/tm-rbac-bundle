@@ -6,7 +6,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use TM\RbacBundle\Model\UserInterface;
 use TM\RbacBundle\Repository\RepositoryProvider;
-use TM\RbacBundle\TMPermissions;
 
 class PermissionVoter extends Voter
 {
@@ -16,11 +15,18 @@ class PermissionVoter extends Voter
     private $repositoryProvider;
 
     /**
-     * @param RepositoryProvider $repositoryProvider
+     * @var array|string[]
      */
-    public function __construct(RepositoryProvider $repositoryProvider)
+    private $permissions;
+
+    /**
+     * @param RepositoryProvider $repositoryProvider
+     * @param array|string[] $permissions
+     */
+    public function __construct(RepositoryProvider $repositoryProvider, array $permissions)
     {
         $this->repositoryProvider = $repositoryProvider;
+        $this->permissions = $permissions;
     }
 
     /**
@@ -28,9 +34,7 @@ class PermissionVoter extends Voter
      */
     public function supports($attribute, $subject)
     {
-        $permissions = $this->repositoryProvider->getPermissionRepository()->getAllPermissionsKeys();
-
-        return in_array($attribute, $permissions);
+        return array_key_exists($attribute, $this->permissions);
     }
 
     /**

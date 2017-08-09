@@ -39,10 +39,9 @@ class PermissionController
 
     /**
      * @param Request $request
-     * @param mixed $id
      * @return Response
      */
-    public function listAction(Request $request, $id) : Response
+    public function listAction(Request $request) : Response
     {
         $this->assertMethodIsAllowed($request, Request::METHOD_GET);
 

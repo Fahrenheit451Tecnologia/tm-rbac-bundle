@@ -1,13 +1,5 @@
 TM\RbacBundle\Model\Permission:
-    table: tm_rbac_permission
-    type: entity
-    repositoryClass: TM\RbacBundle\Repository\PermissionRepository
-    id:
-        id:
-            type: string
-            length: 150
-            generator:
-                strategy: NONE
+    type: mappedSuperclass
     fields:
         name:
             column: permission_name

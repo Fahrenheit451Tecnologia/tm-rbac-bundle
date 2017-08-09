@@ -1,12 +1,5 @@
 TM\RbacBundle\Model\Role:
-    table: tm_rbac_role
-    type: entity
-    repositoryClass: TM\RbacBundle\Repository\RoleRepository
-    id:
-        id:
-            type: string
-            generator:
-                strategy: Uuid
+    type: mappedSuperclass
     fields:
         name:
             column: role_name
@@ -16,14 +9,3 @@ TM\RbacBundle\Model\Role:
         readOnly:
             column: read_only
             type: boolean
-    manyToMany:
-        permissions:
-            targetEntity: TM\RbacBundle\Model\Permission
-            joinTable:
-                name: tm_rbac_role_permissions
-            joinColumns:
-                role_id:
-                    referencedColumnName: id
-            inverseJoinColumns:
-                permission_id:
-                    referencedColumnName: id

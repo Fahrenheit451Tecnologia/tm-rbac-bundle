@@ -7,7 +7,7 @@ use Pagerfanta\Pagerfanta;
 use TM\RbacBundle\Model\RoleInterface;
 use TM\RbacBundle\Repository\Traits\PaginationTrait;
 
-abstract class RoleRepository extends EntityRepository
+class RoleRepository extends EntityRepository
 {
     use PaginationTrait;
 
@@ -30,26 +30,6 @@ abstract class RoleRepository extends EntityRepository
         $this->applySorting($queryBuilder, $sorting);
 
         return $this->getPaginator($queryBuilder, $page, $limit);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function create(UuidInterface $id, string $name, array $permissions, bool $readOnly = false) : RoleInterface
-    {
-        $class = $this->getClassName();
-
-        /** @var RoleInterface $role */
-        $role = new $class();
-        $role->setId($id);
-        $role->setName($name);
-        $role->setReadOnly($readOnly);
-
-        foreach ($permissions as $permission) {
-            $role->addPermission($permission);
-        }
-
-        return $role;
     }
 
     /**

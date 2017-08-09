@@ -140,6 +140,8 @@ class UserController
 
     /**
      * @param Request $request
+     * @param mixed $id
+     * @param mixed $roleId
      * @return Response
      */
     public function removeRoleFromUser(Request $request, $id, $roleId)

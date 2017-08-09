@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use TM\RbacBundle\Model\PermissionInterface;
 use TM\RbacBundle\Repository\Traits\PaginationTrait;
 
-abstract class PermissionRepository extends EntityRepository implements PermissionRepositoryInterface
+class PermissionRepository extends EntityRepository implements PermissionRepositoryInterface
 {
     use PaginationTrait;
 
@@ -17,26 +17,39 @@ abstract class PermissionRepository extends EntityRepository implements Permissi
      */
     public function createPaginator(array $sorting = [], int $page = 1, int $limit = 50) : Pagerfanta
     {
-        $queryBuilder = $this
-            ->createQueryBuilder('o')
-        ;
+        $queryBuilder = $this->createQueryBuilder('p');
 
         if (empty($sorting)) {
             if (!is_array($sorting)) {
                 $sorting = [$sorting];
             }
-            $sorting['o.id'] = 'ASC';
+            $sorting['p.id'] = 'ASC';
         }
 
         $this->applySorting($queryBuilder, $sorting);
 
         return $this->getPaginator($queryBuilder, $page, $limit);
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function findByName(string $name) /* : ?PermissionInterface */
+    public function getAllPermissionsKeys() : array
+    {
+        $keys = $this
+            ->createQueryBuilder('p')
+            ->select('p.id')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return array_column($keys, 'id');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findOneByName(string $name) /* : ?PermissionInterface */
     {
         return $this->find($name);
     }
@@ -44,9 +57,9 @@ abstract class PermissionRepository extends EntityRepository implements Permissi
     /**
      * {@inheritdoc}
      */
-    public function getByName(string $name) : PermissionInterface
+    public function getOneByName(string $name) : PermissionInterface
     {
-        if (null === $permission = $this->findByName($name)) {
+        if (null === $permission = $this->findOneByName($name)) {
             throw new NotFoundHttpException(sprintf('Permission with name "%s" not found'));
         }
 
@@ -56,11 +69,11 @@ abstract class PermissionRepository extends EntityRepository implements Permissi
     /**
      * {@inheritdoc}
      */
-    public function create(string $key) : PermissionInterface
+    public function createNew(string $key, string $name) : PermissionInterface
     {
         $class = $this->getClassName();
 
-        return new $class($key);
+        return new $class($key, $name);
     }
 
     /**

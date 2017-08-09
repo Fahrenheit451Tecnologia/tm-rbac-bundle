@@ -50,7 +50,6 @@ class RoleController
 
     /**
      * @param Request $request
-     * @param mixed $id
      * @return Response
      */
     public function listAction(Request $request) : Response

@@ -138,7 +138,6 @@ AppBundle\Entity\Permission:
                 strategy: AUTO
 ```
 
-
 ##### Using XML
 
 ```xml
@@ -156,7 +155,7 @@ AppBundle\Entity\Permission:
 </doctrine-mapping>
 ```
 
-##### Using Annotiations
+##### Using Annotations
 
 ```php
 <?php
@@ -234,7 +233,6 @@ AppBundle\Entity\Permission:
                     referencedColumnName: id
 ```
 
-
 ##### Using XML
 
 ```xml
@@ -255,7 +253,7 @@ AppBundle\Entity\Permission:
                     <join-column name="role_id" referenced-column-name="id" />
                 </join-columns>
                 <inverse-join-columns>
-                    <join-column name="permission_id" referenced-column-name="id" unique="true" />
+                    <join-column name="permission_id" referenced-column-name="id" />
                 </inverse-join-columns>
             </join-table>
         </many-to-many>
@@ -263,7 +261,7 @@ AppBundle\Entity\Permission:
 </doctrine-mapping>
 ```
 
-##### Using Annotiations
+##### Using Annotations
 
 ```php
 <?php
@@ -322,6 +320,16 @@ to make it easier to create your entity. Here is how you use it:
 practices. However, you can of course place *your* `Role` class in the bundle
 you want.
 
+**NOTE** In this case we are naming the tables `tm_users_permissions` and `tm_users_roles_`
+(for the joining tables) but you can name them anything you wish.
+
+**NOTE** In this case we are using the `TM\RbacBundle\Repository\UserRepository`.
+You are welcome to use your own repository but make sure that it implements the
+`TM\RbacBundle\Repository\UserRepositoryInterface`
+
+**NOTE** Please replace the target entity of the permissions property
+(`AppBundle\Entity\Permission`) with your own `Permission` class name
+
 "Use" `UserTrait` in *your* `User` class.
 
 ```php
@@ -341,15 +349,17 @@ class User
 
 Add `User` mapping to your mapping.
 
+##### Using YAML
+
 ```yaml
 # src/AppBundle/Resources/config/doctrine/User.orm.yml
 AppBundle\Entity\User:
     //...
     manyToMany:
         userPermissions:
-            targetEntity: TM\RbacBundle\Model\Permission
+            targetEntity: AppBundle\Entity\Permission
             joinTable:
-            	name: tm_rbac_user_permissions
+            	name: tm_users_permissions
                 joinColumns:
                     user_id:
                         referencedColumnName: id
@@ -357,15 +367,109 @@ AppBundle\Entity\User:
                     permission_id:
                         referencedColumnName: id
         userRoles:
-            targetEntity: TM\RbacBundle\Model\Role
+            targetEntity: AppBundle\Entity\Role
             joinTable:
-                name: tm_rbac_user_roles
+                name: tm_users_roles
                 joinColumns:
                     user_id:
                         referencedColumnName: id
                 inverseJoinColumns:
                     role_id:
                         referencedColumnName: id
+```
+
+##### Using XML
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<!-- src/AppBundle/Resources/config/doctrine/Role.orm.xml -->
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="AppBundle\Entity\User" table="tm_user">
+        <!-- The rest of your mapping -->
+
+        <many-to-many field="userPermissions" target-entity="AppBundle\Entity\Permission">
+            <join-table name="tm_users_permissions">
+                <join-columns>
+                    <join-column name="user_id" referenced-column-name="id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="permission_id" referenced-column-name="id" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+
+        <many-to-many field="userRoles" target-entity="AppBundle\Entity\Role">
+            <join-table name="tm_users_roles">
+                <join-columns>
+                    <join-column name="user_id" referenced-column-name="id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="role_id" referenced-column-name="id" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+    </entity>
+</doctrine-mapping>
+```
+
+##### Using Annotations
+
+```php
+<?php
+// src AppBundle/Entity/User
+namespace AppBundle\Entity;
+
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use TM\RbacBundle\Model\PermissionInterface;
+use TM\RbacBundle\Model\Permission as BasePermission;
+use TM\RbacBundle\Model\PermissionInterface;
+use TM\RbacBundle\Model\Traits\UserTrait as TMRbacUserTrait;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="tm_user")
+ */
+
+class User
+{
+    use TMRbacUserTrait;
+
+    //...
+
+    /**
+     * @ManyToMany(targetEntity="AppBundle\Entity\Permission")
+     * @JoinTable(
+     *     name="tm_users_permissions",
+     *     joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@JoinColumn(name="permission_id", referencedColumnName="id")}
+     * )
+     *
+     * @var Collection|PermissionInterface[]
+     */
+    protected $userPermissions;
+
+    /**
+     * @ManyToMany(targetEntity="AppBundle\Entity\Role")
+     * @JoinTable(
+     *     name="tm_users_roles",
+     *     joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}
+     * )
+     *
+     * @var Collection|PermissionInterface[]
+     */
+    protected $userRoles;
+
+    public function __construct()
+    {
+        parent::__construct();
+        // your own logic
+    }
+}
 ```
 
 ### Step 7. Configure the TMRbacBundle

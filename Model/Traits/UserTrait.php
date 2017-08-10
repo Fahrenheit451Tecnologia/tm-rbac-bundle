@@ -11,26 +11,11 @@ use TM\RbacBundle\Model\UserInterface;
 trait UserTrait
 {
     /**
-     * @ORM\ManyToMany(targetEntity="\TM\RbacBundle\Model\PermissionInterface")
-     * @ORM\JoinTable(name="tm_user_permission",
-     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="permission_id", referencedColumnName="id")}
-     * )
-     * @JsonApi\HasMany(includeByDefault=false)
-     *
      * @var ArrayCollection|PermissionInterface[]
      */
     protected $userPermissions;
 
     /**
-     * @ORM\ManyToMany(targetEntity="\TM\RbacBundle\Model\RoleInterface")
-     * @ORM\JoinTable(name="tm_user_role",
-     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
-     * )
-     * @JsonApi\HasMany(includeByDefault=false)
-     * @Serializer\Expose
-     *
      * @var ArrayCollection|RoleInterface[]
      */
     protected $userRoles;

@@ -289,8 +289,8 @@ class Permission extends BasePermission
     protected $id;
 
     /**
-     * @ManyToMany(targetEntity="AppBundle\Entity\Permission")
-     * @JoinTable(
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Permission")
+     * @ORM\JoinTable(
      *     name="tm_roles_permissions",
      *     joinColumns={@JoinColumn(name="role_id", referencedColumnName="id")},
      *     inverseJoinColumns={@JoinColumn(name="permission_id", referencedColumnName="id")}
@@ -441,8 +441,8 @@ class User
     //...
 
     /**
-     * @ManyToMany(targetEntity="AppBundle\Entity\Permission")
-     * @JoinTable(
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Permission")
+     * @ORM\JoinTable(
      *     name="tm_users_permissions",
      *     joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
      *     inverseJoinColumns={@JoinColumn(name="permission_id", referencedColumnName="id")}
@@ -453,8 +453,8 @@ class User
     protected $userPermissions;
 
     /**
-     * @ManyToMany(targetEntity="AppBundle\Entity\Role")
-     * @JoinTable(
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role")
+     * @ORM\JoinTable(
      *     name="tm_users_roles",
      *     joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
      *     inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")}

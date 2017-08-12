@@ -52,7 +52,7 @@ EOT
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->repositoryProvider = $this->getContainer()->get('tm_rbac.repository_provider');
+        $this->repositoryProvider = $this->getContainer()->get('tm_rbac.provider.repository');
     }
 
     /**

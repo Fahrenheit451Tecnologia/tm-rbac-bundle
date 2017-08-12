@@ -130,7 +130,7 @@ You are welcome to use your own repository but make sure that it implements the
 AppBundle\Entity\Permission:
     name: tm_permission
     type: entity
-    repositoryClass: TM\RbacBundle\Repository\PermissionRepository
+    repositoryClass: AppBundle\Repository\PermissionRepository
     id:
         id:
             type: ineteger
@@ -147,7 +147,7 @@ AppBundle\Entity\Permission:
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="AppBundle\Entity\Permission" table="tm_permission">
+    <entity name="AppBundle\Entity\Permission" table="tm_permission" repository-class="AppBundle\Repository\PermissionRepository">
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO"/>
         </id>
@@ -166,7 +166,7 @@ use Doctrine\ORM\Mapping as ORM;
 use TM\RbacBundle\Model\Permission as BasePermission;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PermissionRepository")
  * @ORM\Table(name="tm_permission")
  */
 class Permission extends BasePermission
@@ -214,7 +214,7 @@ You are welcome to use your own repository but make sure that it implements the
 AppBundle\Entity\Permission:
     name: tm_role
     type: entity
-    repositoryClass: TM\RbacBundle\Repository\RoleRepository
+    repositoryClass: AppBundle\Repository\RoleRepository
     id:
         id:
             type: ineteger
@@ -247,7 +247,7 @@ AppBundle\Entity\Permission:
             <generator strategy="AUTO"/>
         </id>
 
-        <many-to-many field="permissions" target-entity="AppBundle\Entity\Permission">
+        <many-to-many field="permissions" target-entity="AppBundle\Entity\Permission" repository-class="AppBundle\Repository\RoleRepository">
             <join-table name="tm_roles_permissions">
                 <join-columns>
                     <join-column name="role_id" referenced-column-name="id" />
@@ -274,7 +274,7 @@ use TM\RbacBundle\Model\PermissionInterface;
 use TM\RbacBundle\Model\Permission as BasePermission;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\RoleRepository")
  * @ORM\Table(name="tm_permission")
  */
 class Permission extends BasePermission
@@ -347,6 +347,25 @@ class User
 }
 ```
 
+"Use" `UserRepositoryTrait` in *your* `UserRepository` class.
+
+```php
+<?php
+// src/AppBundle/Repository/UserRepository
+namespace AppBundle\Repository;
+
+use Doctrine\ORM\EntityRepository;
+use TM\RbacBundle\Repository\Traits\UserRepositoryTrait as TMRbacUserRepositoryTrait;
+use TM\RbacBundle\Repository\UserRepositoryInterface;
+
+class UserRepository extends EntityRepository implements UserRepositoryInterface
+{
+    use TMRbacUserRepositoryTrait;
+
+    //...
+}
+```
+
 Add `User` mapping to your mapping.
 
 ##### Using YAML
@@ -354,6 +373,7 @@ Add `User` mapping to your mapping.
 ```yaml
 # src/AppBundle/Resources/config/doctrine/User.orm.yml
 AppBundle\Entity\User:
+    repositoryClass: AppBundle\Reposotory\UserRepository
     //...
     manyToMany:
         userPermissions:
@@ -387,7 +407,7 @@ AppBundle\Entity\User:
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="AppBundle\Entity\User" table="tm_user">
+    <entity name="AppBundle\Entity\User" table="tm_user" repository-class="AppBundle\Repository\UserRepository">
         <!-- The rest of your mapping -->
 
         <many-to-many field="userPermissions" target-entity="AppBundle\Entity\Permission">
@@ -430,10 +450,9 @@ use TM\RbacBundle\Model\PermissionInterface;
 use TM\RbacBundle\Model\Traits\UserTrait as TMRbacUserTrait;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\Table(name="tm_user")
  */
-
 class User
 {
     use TMRbacUserTrait;

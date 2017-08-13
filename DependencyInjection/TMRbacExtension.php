@@ -15,6 +15,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class TMRbacExtension extends Extension
 {
+    const LIMIT_KEY_LENGTH  = 255;
+    const LIMIT_NAME_LENGTH = 255;
+
     /**
      * {@inheritdoc}
      */
@@ -34,11 +37,30 @@ class TMRbacExtension extends Extension
             $container->setParameter(sprintf('tm_rbac.model.%s.class', $model), $config['models'][$model]);
         }
 
-        foreach ($config['permissions'] as $key => $value) {
+        foreach ($config['permissions'] as $key => $name) {
             if (!preg_match('/^[a-z_]+$/', $key)) {
                 throw new \Exception(sprintf(
                     'Invalid permission key "%s". Permissions keys must contain only lower case characters or underscores',
                     $key
+                ));
+            }
+
+            if (strlen($key) > self::LIMIT_KEY_LENGTH) {
+                throw new \Exception(sprintf(
+                    'Invalid permission key "%s". Permission key must be under %d characters, this is %d characters',
+                    $key,
+                    self::LIMIT_KEY_LENGTH,
+                    strlen($key)
+                ));
+            }
+
+            if (strlen($name) > self::LIMIT_NAME_LENGTH) {
+                throw new \Exception(sprintf(
+                    'Invalid permission name "%s" for key "%s". Permission name must be under %d characters, this is %d characters',
+                    $name,
+                    $key,
+                    self::LIMIT_NAME_LENGTH,
+                    strlen($name)
                 ));
             }
         }

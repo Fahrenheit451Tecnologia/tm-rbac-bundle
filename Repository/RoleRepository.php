@@ -4,10 +4,11 @@ namespace TM\RbacBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Pagerfanta\Pagerfanta;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use TM\RbacBundle\Model\RoleInterface;
 use TM\RbacBundle\Repository\Traits\PaginationTrait;
 
-class RoleRepository extends EntityRepository
+class RoleRepository extends EntityRepository implements RoleRepositoryInterface
 {
     use PaginationTrait;
 
@@ -30,6 +31,36 @@ class RoleRepository extends EntityRepository
         $this->applySorting($queryBuilder, $sorting);
 
         return $this->getPaginator($queryBuilder, $page, $limit);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createNew() : RoleInterface
+    {
+        $className = $this->getClassName();
+
+        return new $className();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findOneByName(string $name) /* : ?RoleInterface */
+    {
+        return $this->find($name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOneByName(string $name) : RoleInterface
+    {
+        if (null === $permission = $this->findOneByName($name)) {
+            throw new NotFoundHttpException(sprintf('Role with name "%s" not found'));
+        }
+
+        return $permission;
     }
 
     /**

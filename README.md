@@ -194,6 +194,9 @@ You will then need to add your mapping to the concrete `Role` class.
 You will need to change the `AppBundle\Entity\Role` to match the fully
 qualified class name of your own `Role` class.
 
+**NOTE** The id mapping for this table is required to be of type `string`
+with a generator strategy of `NONE`. ***This can not be changed***.
+
 **NOTE** In this case we are naming the tables `tm_role` and `tm_roles_permissions`
 (for the joining table) but you can name them anything you wish.
 
@@ -217,9 +220,10 @@ AppBundle\Entity\Permission:
     repositoryClass: AppBundle\Repository\RoleRepository
     id:
         id:
-            type: ineteger
+            type: string
+            length: 255
             generator:
-                strategy: AUTO
+                strategy: NONE
     manyToMany:
         permissions:
             targetEntity: AppBundle\Entity\Permission
@@ -243,8 +247,8 @@ AppBundle\Entity\Permission:
     xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <entity name="AppBundle\Entity\Role" table="tm_role">
-        <id name="id" type="integer" column="id">
-            <generator strategy="AUTO"/>
+        <id name="id" type="string" length="255" column="id">
+            <generator strategy="NONE"/>
         </id>
 
         <many-to-many field="permissions" target-entity="AppBundle\Entity\Permission" repository-class="AppBundle\Repository\RoleRepository">
@@ -281,8 +285,8 @@ class Permission extends BasePermission
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="string", length=255)
+     * @ORM\GeneratedValue(strategy="NONE")
      *
      * @var integer
      */

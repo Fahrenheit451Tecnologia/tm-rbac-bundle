@@ -48,7 +48,7 @@ class RoleRepository extends EntityRepository implements RoleRepositoryInterface
      */
     public function findOneByName(string $name) /* : ?RoleInterface */
     {
-        return $this->find($name);
+        return $this->findOneBy(['name' => $name]);
     }
 
     /**

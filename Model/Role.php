@@ -6,7 +6,7 @@ use Assert\Assertion;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-class Role implements RoleInterface
+abstract class Role implements RoleInterface
 {
     /**
      * @var integer|string|mixed
@@ -34,6 +34,14 @@ class Role implements RoleInterface
     public function __construct()
     {
         $this->permissions = new ArrayCollection();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId() /* : mixed */
+    {
+        return $this->id;
     }
 
     /**

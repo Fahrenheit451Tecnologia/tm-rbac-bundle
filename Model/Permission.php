@@ -2,7 +2,7 @@
 
 namespace TM\RbacBundle\Model;
 
-class Permission implements PermissionInterface
+abstract class Permission implements PermissionInterface
 {
     /**
      * @var string

@@ -7,6 +7,13 @@ use Doctrine\Common\Collections\Collection;
 interface RoleInterface
 {
     /**
+     * Get role id
+     *
+     * @return mixed
+     */
+    public function getId() /* : mixed */;
+
+    /**
      * Set name
      *
      * @param string $name

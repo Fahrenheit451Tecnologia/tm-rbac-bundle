@@ -63,7 +63,7 @@ class PermissionVoter extends Voter
      * @param TokenInterface $token
      * @return UserInterface|null
      */
-    private function getUserFromToken(TokenInterface $token) /* ?: UserInterface */
+    private function getUserFromToken(TokenInterface $token) /* : ?UserInterface */
     {
         if (null === $user = $token->getUser()) {
             return null;

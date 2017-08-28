@@ -36,8 +36,8 @@ class PermissionListener
     public function __construct(
         Reader $reader,
         array $permissions,
-        AuthorizationCheckerInterface $authorizationChecker)
-    {
+        AuthorizationCheckerInterface $authorizationChecker
+    ) {
         Assertion::allString($permissions);
 
         $this->reader = $reader;
@@ -68,7 +68,7 @@ class PermissionListener
      * @param mixed $controller
      * @return null|Permission
      */
-    private function getPermissionAnnotation($controller) /* ?: Permission */
+    private function getPermissionAnnotation($controller) /* : ?Permission */
     {
         if (!is_array($controller) && method_exists($controller, '__invoke')) {
             $controller = array($controller, '__invoke');

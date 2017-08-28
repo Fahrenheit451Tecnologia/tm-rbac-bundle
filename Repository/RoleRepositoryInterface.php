@@ -4,6 +4,7 @@ namespace TM\RbacBundle\Repository;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use TM\RbacBundle\Model\RoleInterface;
+use TM\RbacBundle\Model\UserInterface;
 
 interface RoleRepositoryInterface extends ObjectRepository
 {
@@ -36,4 +37,10 @@ interface RoleRepositoryInterface extends ObjectRepository
      * @return void
      */
     public function save(RoleInterface $role) /* : void */;
+
+    /**
+     * @param UserInterface $user
+     * @return array
+     */
+    public function findAllRolesNotUsedByUser(UserInterface $user) : array;
 }

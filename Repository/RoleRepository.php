@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use TM\RbacBundle\Model\RoleInterface;
+use TM\RbacBundle\Model\UserInterface;
 use TM\RbacBundle\Repository\Traits\PaginationTrait;
 
 class RoleRepository extends EntityRepository implements RoleRepositoryInterface
@@ -82,5 +83,26 @@ class RoleRepository extends EntityRepository implements RoleRepositoryInterface
     {
         $this->_em->remove($role);
         $this->_em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findAllRolesNotUsedByUser(UserInterface $user) : array
+    {
+        $queryBuilder = $this->createQueryBuilder('r');
+
+        if (!$user->getUserRoles()->isEmpty()) {
+            $queryBuilder
+                ->where($queryBuilder->expr()->notIn('r.name', ':names'))
+                ->setParameter('names', array_map(function (RoleInterface $role) {
+                    return $role->getName();
+                }, $user->getUserRoles()->toArray()))
+            ;
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
     }
 }

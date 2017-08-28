@@ -163,23 +163,12 @@ EOT
      */
     private function getAvailableRoles(UserInterface $user)
     {
-        $allRoles = $this
-            ->repositoryProvider
-            ->getRoleRepository()
-            ->findAll();
-        $availableRoles = [];
-
-        /** @var RoleInterface $role */
-        foreach ($allRoles as $role) {
-            if ($user->hasUserRole($role)) {
-                continue;
-            }
-
-            $availableRoles[$role->getName()] = $role;
-        }
+        $availableRoles = array_map(function(RoleInterface $role) {
+            return $role->getName();
+        }, $this->repositoryProvider->getRoleRepository()->findAllRolesNotUsedByUser($user));
 
         ksort($availableRoles);
 
-        return $availableRoles;
+        return array_combine($availableRoles, $availableRoles);
     }
 }

@@ -154,20 +154,29 @@ EOT
                 ));
             }
 
-            $availableRoles = array_map(function (RoleInterface $role) {
-                return $role->getName();
-            }, $user->getUserRoles());
-
-            sort($availableRoles);
-
             $question = new ChoiceQuestion(
                 sprintf('Select a ' . 'role to remove from "%s": ', $user->getUsername()),
-                array_keys($availableRoles)
+                array_keys($this->getRemovableRoles($user))
             );
             $question->setErrorMessage('Role "%s" is not valid');
 
             $role = $this->getHelper('question')->ask($input, $output, $question);
             $input->setArgument('role', $role);
         }
+    }
+
+    /**
+     * @param UserInterface $user
+     * @return array|RoleInterface[]
+     */
+    private function getRemovableRoles(UserInterface $user)
+    {
+        $removableRoles = array_map(function(RoleInterface $role) {
+            return $role->getName();
+        }, $user->getUserRoles()->toArray());
+
+        ksort($removableRoles);
+
+        return array_combine($removableRoles, $removableRoles);
     }
 }

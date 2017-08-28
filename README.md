@@ -342,8 +342,9 @@ You are welcome to use your own repository but make sure that it implements the
 namespace AppBundle\Entity;
 
 use TM\RbacBundle\Model\Traits\UserTrait as TMRbacUserTrait;
+use TM\RbacBundle\Model\UserInterface as TMRbacUserInterface;
 
-class User
+class User implements TMRbacUserInterface
 {
     use TMRbacUserTrait;
 
@@ -360,9 +361,9 @@ namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use TM\RbacBundle\Repository\Traits\UserRepositoryTrait as TMRbacUserRepositoryTrait;
-use TM\RbacBundle\Repository\UserRepositoryInterface;
+use TM\RbacBundle\Repository\TMRbacUserRepositoryInterface;
 
-class UserRepository extends EntityRepository implements UserRepositoryInterface
+class UserRepository extends EntityRepository implements TMRacUserRepositoryInterface
 {
     use TMRbacUserRepositoryTrait;
 

@@ -3,7 +3,7 @@ tm_rbac_permission:
     resource: '@TMRbacBundle/Resources/config/routing/permission.yml'
 
 tm_rbac_role:
-    prefix: /permissions
+    prefix: /roles
     resource: '@TMRbacBundle/Resources/config/routing/role.yml'
 
 tm_rbac_user:

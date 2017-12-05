@@ -2,11 +2,11 @@ tm_rbac_permission_list:
     path: /
     methods: [GET]
     defaults:
-        _controller: tm_rbac.controller.permission::listAction
+        _controller: tm_rbac.controller.permission:listAction
 
 tm_rbac_permission_read:
     path: /{id}
     methods: [GET]
     defaults:
-        _controller: tm_rbac.controller.permission::readAction
+        _controller: tm_rbac.controller.permission:readAction
 

@@ -25,7 +25,7 @@ trait UserTrait
      */
     public function getRoles()
     {
-        $permissions = [];
+        $permissions = is_callable('parent::getRoles') ? parent::getRoles() : [];
 
         /** @var PermissionInterface $permission */
         foreach ($this->getUserPermissions() as $permission) {

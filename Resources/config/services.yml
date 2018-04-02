@@ -44,3 +44,5 @@ services:
 
     TM\RbacBundle\Controller\:
         resource: '../../../Controller'
+        tags:
+            - 'controller.service_arguments'

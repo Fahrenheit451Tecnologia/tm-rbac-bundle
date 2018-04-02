@@ -3,7 +3,8 @@
 namespace TM\RbacBundle\Annotation;
 
 use Doctrine\Common\Annotations\Annotation;
-use TM\RbacBundle\Exception\AnnotationHasNoPermissionSet;
+use TM\RbacBundle\Exception\RbacException;
+use TM\RbacBundle\TMPermissions;
 
 /**
  * @Annotation
@@ -13,12 +14,16 @@ class Permission extends Annotation
 {
     /**
      * @return string
-     * @throws AnnotationHasNoPermissionSet
+     * @throws RbacException
      */
     public function getPermission() : string
     {
         if (null === $this->value) {
-            throw new AnnotationHasNoPermissionSet();
+            throw RbacException::annotationHasNoPermissionSet();
+        }
+
+        if (!TMPermissions::getInstance()->isPermission($this->value)) {
+            throw RbacException::annotationHasInvalidPermissionSet($this->value);
         }
 
         return $this->value;

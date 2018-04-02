@@ -1,56 +1,46 @@
 services:
-    tm_rbac.provider.repository:
-        class: TM\RbacBundle\Repository\RepositoryProvider
-        arguments:
-            - '@doctrine'
-            - '%tm_rbac.model.permission.class%'
-            - '%tm_rbac.model.role.class%'
-            - '%tm_rbac.model.user.class%'
+    _defaults:
+        autowire: true
+        autoconfigure: false
 
-    tm_rbac.event_listener.permission:
-        class: TM\RbacBundle\EventListener\PermissionListener
-        arguments:
-            - '@annotation_reader'
-            - '%tm_rbac.permissions%'
-            - '@security.authorization_checker'
-
-    tm_rbac.form.type.permission_entity_choice:
-        class: TM\RbacBundle\Form\Type\PermissionEntityChoiceType
-        arguments:
-            - '%tm_rbac.model.permission.class%'
+    TM\RbacBundle\Command\:
+        resource: '../../../Command'
         tags:
-            - { name: form.type }
+            - 'console.command'
 
-    tm_rbac.form.type.role_entity_choice:
-        class: TM\RbacBundle\Form\Type\RoleEntityChoiceType
+    TM\RbacBundle\Command\InitializePermissionsCommand:
         arguments:
-            - '%tm_rbac.model.role.class%'
+            $permissions: '%tm_rbac.permissions%'
         tags:
-            - { name: form.type }
+            - 'console.command'
 
-    tm_rbac.security.voter.permission:
-        class: TM\RbacBundle\Security\Voter\PermissionVoter
+    TM\RbacBundle\Repository\RepositoryProvider:
         arguments:
-            - '@tm_rbac.provider.repository'
-            - '%tm_rbac.permissions%'
+            $permissionModelClassName: '%tm_rbac.model.permission.class%'
+            $roleModelClassName: '%tm_rbac.model.role.class%'
+            $userModelClassName: '%tm_rbac.model.user.class%'
+
+    TM\RbacBundle\EventListener\PermissionListener:
+        arguments:
+            $permissions: '%tm_rbac.permissions%'
+
+    TM\RbacBundle\Form\Type\PermissionEntityChoiceType:
+        arguments:
+            $permissions: '%tm_rbac.model.permission.class%'
         tags:
-            - { name: 'security.voter' }
+            - 'form.type'
 
-    tm_rbac.controller.permission:
-        class: TM\RbacBundle\Controller\PermissionController
+    TM\RbacBundle\Form\Type\RoleEntityChoiceType:
         arguments:
-            - '@tm_rbac.provider.repository'
-            - '@fos_rest.view_handler'
+            $className: '%tm_rbac.model.role.class%'
+        tags:
+            - 'form.type'
 
-    tm_rbac.controller.role:
-        class: TM\RbacBundle\Controller\RoleController
+    TM\RbacBundle\Security\Voter\PermissionVoter:
         arguments:
-            - '@form.factory'
-            - '@tm_rbac.provider.repository'
-            - '@fos_rest.view_handler'
+            $permissions: '%tm_rbac.permissions%'
+        tags:
+            - 'security.voter'
 
-    tm_rbac.controller.user:
-        class: TM\RbacBundle\Controller\UserController
-        arguments:
-            - '@tm_rbac.provider.repository'
-            - '@fos_rest.view_handler'
+    TM\RbacBundle\Controller\:
+        resource: '../../../Controller'

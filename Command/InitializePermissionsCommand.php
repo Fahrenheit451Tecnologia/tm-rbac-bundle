@@ -2,13 +2,13 @@
 
 namespace TM\RbacBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TM\RbacBundle\Model\PermissionInterface;
 use TM\RbacBundle\Repository\RepositoryProvider;
 
-class InitializePermissionsCommand extends ContainerAwareCommand
+class InitializePermissionsCommand extends Command
 {
     /**
      * @var RepositoryProvider
@@ -19,6 +19,20 @@ class InitializePermissionsCommand extends ContainerAwareCommand
      * @var array|string[]
      */
     private $permissions;
+
+    /**
+     * @param RepositoryProvider $repositoryProvider
+     * @param array $permissions
+     */
+    public function __construct(
+        RepositoryProvider $repositoryProvider,
+        array $permissions
+    ) {
+        $this->repositoryProvider = $repositoryProvider;
+        $this->permissions = $permissions;
+
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}

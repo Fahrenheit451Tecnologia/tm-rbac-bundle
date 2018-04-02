@@ -2,7 +2,7 @@
 
 namespace TM\RbacBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -12,12 +12,22 @@ use Symfony\Component\Console\Question\Question;
 use TM\RbacBundle\Model\PermissionInterface;
 use TM\RbacBundle\Repository\RepositoryProvider;
 
-class CreateRoleCommand extends ContainerAwareCommand
+class CreateRoleCommand extends Command
 {
     /**
      * @var RepositoryProvider
      */
     private $repositoryProvider;
+
+    /**
+     * @param RepositoryProvider $repositoryProvider
+     */
+    public function __construct(RepositoryProvider $repositoryProvider)
+    {
+        $this->repositoryProvider = $repositoryProvider;
+
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -63,14 +73,6 @@ You can create an read-only role (can only be deleted using the CLI with --force
 EOT
             )
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
-        $this->repositoryProvider = $this->getContainer()->get('tm_rbac.provider.repository');
     }
 
     /**

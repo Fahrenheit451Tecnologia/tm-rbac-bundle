@@ -19,12 +19,12 @@ abstract class AbstractEntityChoiceType extends AbstractType
     private $propertyPath;
 
     /**
-     * @param string $className
+     * @param string $permissions
      * @param string $propertyPath
      */
-    public function __construct(string $className, string $propertyPath)
+    public function __construct(string $permissions, string $propertyPath)
     {
-        $this->className = $className;
+        $this->className = $permissions;
         $this->propertyPath = $propertyPath;
     }
 

@@ -7,6 +7,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\KernelEvents;
+use TM\RbacBundle\EventListener\PermissionListener;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -68,7 +69,7 @@ class TMRbacExtension extends Extension
         $container->setParameter('tm_rbac.permissions', $config['permissions']);
 
         if ($config['listeners']['permission']) {
-            $definition = $container->getDefinition('tm_rbac.event_listener.permission');
+            $definition = $container->getDefinition(PermissionListener::class);
 
             $definition
                 ->addTag('kernel.event_listener', [

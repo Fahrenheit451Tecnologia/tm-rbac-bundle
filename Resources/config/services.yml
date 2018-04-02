@@ -4,7 +4,7 @@ services:
         autoconfigure: false
 
     TM\RbacBundle\Command\:
-        resource: '../../../Command'
+        resource: '../../Command'
         tags:
             - 'console.command'
 
@@ -43,6 +43,6 @@ services:
             - 'security.voter'
 
     TM\RbacBundle\Controller\:
-        resource: '../../../Controller'
+        resource: '../../Controller'
         tags:
             - 'controller.service_arguments'

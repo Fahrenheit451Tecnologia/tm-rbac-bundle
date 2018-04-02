@@ -2,29 +2,28 @@ tm_rbac_role_list:
     path: /
     methods: [GET]
     defaults:
-        _controller: tm_rbac.controller.role:listAction
+        _controller: TMRbacBundle:Role:list
 
 tm_rbac_role_create:
     path: /
     methods: [POST]
     defaults:
-        _controller: tm_rbac.controller.role:createAction
+        _controller: TMRbacBundle:Role:create
 
 tm_rbac_role_read:
     path: /{id}
     methods: [GET]
     defaults:
-        _controller: tm_rbac.controller.role:readAction
+        _controller: TMRbacBundle:Role:read
 
 tm_rbac_role_update:
     path: /{id}
     methods: [PUT,PATCH]
     defaults:
-        _controller: tm_rbac.controller.role:updateAction
+        _controller: TMRbacBundle:Role:update
 
 tm_rbac_role_delete:
     path: /{id}
     methods: [DELETE]
     defaults:
-        _controller: tm_rbac.controller.role:deleteAction
-
+        _controller: TMRbacBundle:Role:delete

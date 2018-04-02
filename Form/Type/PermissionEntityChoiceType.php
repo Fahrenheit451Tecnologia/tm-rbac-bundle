@@ -5,10 +5,10 @@ namespace TM\RbacBundle\Form\Type;
 class PermissionEntityChoiceType extends AbstractEntityChoiceType
 {
     /**
-     * @param string $className
+     * @param string $permissions
      */
-    public function __construct(string $className)
+    public function __construct(string $permissions)
     {
-        parent::__construct($className, 'userPermissions');
+        parent::__construct($permissions, 'userPermissions');
     }
 }

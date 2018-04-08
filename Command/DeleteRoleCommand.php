@@ -27,7 +27,6 @@ class DeleteRoleCommand extends Command
         parent::__construct();
     }
 
-
     /**
      * {@inheritdoc}
      */

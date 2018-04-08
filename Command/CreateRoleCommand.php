@@ -150,7 +150,7 @@ EOT
         }
 
         if (!$input->getArgument('permissions')) {
-            $permissions = $this->getContainer()->getParameter('tm_rbac.permissions');
+            $permissions = $this->repositoryProvider->getPermissionRepository()->getAllPermissionsKeys();
 
             natcasesort($permissions);
 

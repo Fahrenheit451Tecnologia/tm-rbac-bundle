@@ -54,15 +54,6 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
-        $this->repositoryProvider = $this->getContainer()->get('tm_rbac.provider.repository');
-        $this->permissions = $this->getContainer()->getParameter('tm_rbac.permissions');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->purgeUnusedPermissions($output);

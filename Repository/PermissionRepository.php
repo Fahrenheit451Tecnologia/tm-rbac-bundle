@@ -38,12 +38,12 @@ class PermissionRepository extends EntityRepository implements PermissionReposit
     {
         $keys = $this
             ->createQueryBuilder('p')
-            ->select('p.id')
+            ->select('p.name')
             ->getQuery()
             ->getResult()
         ;
 
-        return array_column($keys, 'id');
+        return array_column($keys, 'name');
     }
 
     /**

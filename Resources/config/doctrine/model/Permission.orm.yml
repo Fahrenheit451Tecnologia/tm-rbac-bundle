@@ -5,4 +5,4 @@ TM\RbacBundle\Model\Permission:
             column: permission_name
             type: string
             length: 255
-            uniquie: true
+            unique: true

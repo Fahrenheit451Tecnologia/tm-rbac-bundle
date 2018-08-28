@@ -158,6 +158,7 @@ EOT
                 array_keys($availablePermissions)
             );
             $question->setErrorMessage('Permission "$s" is not valid');
+            $question->setMultiselect(true);
 
             $selectedPermission = $this->getHelper('question')->ask($input, $output, $question);
             $input->setArgument('permission', $selectedPermission);

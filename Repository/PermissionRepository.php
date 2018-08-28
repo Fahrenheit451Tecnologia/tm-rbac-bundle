@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use TM\RbacBundle\Model\PermissionInterface;
+use TM\RbacBundle\Model\RoleInterface;
 use TM\RbacBundle\Repository\Traits\PaginationTrait;
 
 class PermissionRepository extends EntityRepository implements PermissionRepositoryInterface
@@ -95,5 +96,26 @@ class PermissionRepository extends EntityRepository implements PermissionReposit
     {
         $this->_em->remove($permission);
         $this->_em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findAllPermissionsNotUsedByRole(RoleInterface $role): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+
+        if(!$role->getPermissions()->isEmpty()){
+            $queryBuilder
+                ->where($queryBuilder->expr()->notIn('p.name', ':names'))
+                ->setParameter('names', array_map(function (PermissionInterface $permission) {
+                    return $permission->getName();
+                }, $role->getPermissions()->toArray()))
+            ;
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
     }
 }

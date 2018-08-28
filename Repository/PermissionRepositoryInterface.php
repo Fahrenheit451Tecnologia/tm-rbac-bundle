@@ -4,6 +4,7 @@ namespace TM\RbacBundle\Repository;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use TM\RbacBundle\Model\PermissionInterface;
+use TM\RbacBundle\Model\RoleInterface;
 
 interface PermissionRepositoryInterface extends ObjectRepository
 {
@@ -43,4 +44,10 @@ interface PermissionRepositoryInterface extends ObjectRepository
      * @return void
      */
     public function delete(PermissionInterface $permission) /* : void */;
+
+    /**
+     * @param RoleInterface $role
+     * @return array
+     */
+    public function findAllPermissionsNotUsedByRole(RoleInterface $role) : array;
 }

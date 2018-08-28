@@ -83,16 +83,20 @@ EOT
             return 0;
         }
 
-        /** @var PermissionInterface $permission */
-        if (null === $permission = $permissionRepository->findOneBy(['name' => $input->getArgument('permission')])) {
-            throw new \Exception(sprintf(
-                'Permission with name "%s" can not be found',
-                $input->getArgument('permission')
-            ));
-        }
+        $permissions = $input->getArgument('permission');
 
-        $role->addPermission($permission);
-        $roleRepository->save($role);
+        foreach ($permissions as $argument){
+            /** @var PermissionInterface $permission */
+            if (null === $permission = $permissionRepository->findOneBy(['name' => $argument])) {
+                throw new \Exception(sprintf(
+                    'Permission with name "%s" can not be found',
+                    $input->getArgument('permission')
+                ));
+            }
+
+            $role->addPermission($permission);
+            $roleRepository->save($role);
+        }
 
         $output->writeln(sprintf(
             'Added permission <comment>%s</comment> to <comment>%s</comment>',

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php 
+
+declare(strict_types=1);
 
 namespace TM\RbacBundle\Command;
 
@@ -47,6 +49,8 @@ The <info>tm:rbac:add-role-permission </info> command adds a permission to a rol
 
   <info>php %command.full_name% juan</info>
   
+Permission argument can be an array or a string. Must pass the permission id.  
+  
 This interactive shell will ask you for a role name.
 
 You can alternatively specify the permission as the second argument:
@@ -85,9 +89,28 @@ EOT
 
         $permissions = $input->getArgument('permission');
 
-        foreach ($permissions as $argument){
+        if (is_array($permissions)) {
+            foreach ($permissions as $argument){
+                /** @var PermissionInterface $permission */
+                if (null === $permission = $permissionRepository->findOneBy(['id' => $argument])) {
+                    throw new \Exception(sprintf(
+                        'Permission with name "%s" can not be found',
+                        $argument
+                    ));
+                }
+
+                $role->addPermission($permission);
+                $roleRepository->save($role);
+
+                $output->writeln(sprintf(
+                    'Added permission <comment>%s</comment> to <comment>%s</comment>',
+                    $permission->getName(),
+                    $role->getName()
+                ));
+            }
+        } else {
             /** @var PermissionInterface $permission */
-            if (null === $permission = $permissionRepository->findOneBy(['name' => $argument])) {
+            if (null === $permission = $permissionRepository->findOneBy(['id' => $argument])) {
                 throw new \Exception(sprintf(
                     'Permission with name "%s" can not be found',
                     $input->getArgument('permission')
@@ -96,13 +119,13 @@ EOT
 
             $role->addPermission($permission);
             $roleRepository->save($role);
-        }
 
-        $output->writeln(sprintf(
-            'Added permission <comment>%s</comment> to <comment>%s</comment>',
-            $permission->getName(),
-            $role->getName()
-        ));
+            $output->writeln(sprintf(
+                'Added permission <comment>%s</comment> to <comment>%s</comment>',
+                $permission->getName(),
+                $role->getName()
+            ));
+        }
     }
 
     /**

@@ -25,6 +25,11 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->fixXmlConfig('permission')
             ->children()
+                ->arrayNode('manager')
+                    ->children()
+                        ->scalarNode('name')->isRequired()->cannotBeEmpty()->end()
+                    ->end()
+                ->end()
                 ->arrayNode('models')
                     ->addDefaultsIfNotSet()
                     ->children()

@@ -77,5 +77,7 @@ class TMRbacExtension extends Extension
                 ])
             ;
         }
+
+        $container->setParameter('tm_rbac.manager.name', $config['manager']['name']);
     }
 }

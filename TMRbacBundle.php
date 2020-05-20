@@ -20,7 +20,7 @@ class TMRbacBundle extends Bundle
             ->addCompilerPass(DoctrineOrmMappingsPass::createYamlMappingDriver([
                 realpath(__DIR__.'/Resources/config/doctrine/model')    => 'TM\RbacBundle\Model',
             ], [
-                'tm_rbac.entity_manager_name'
+                'tm_rbac.manager.name'
             ]))
         ;
     }

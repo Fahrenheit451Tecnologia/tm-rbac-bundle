@@ -28,7 +28,7 @@ class TMRbacExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('tm_rbac.manager.name', $config['manager']['name']);
-        $container->set('tm_rbac.entity_manager_name', sprintf('doctrine.%_entity_manager', $config['manager']['name']));
+        $container->setParameter('tm_rbac.entity_manager_name', sprintf('%_', $config['manager']['name']));
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

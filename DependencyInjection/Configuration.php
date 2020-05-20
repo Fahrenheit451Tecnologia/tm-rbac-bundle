@@ -27,7 +27,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('manager')
                     ->children()
-                        ->scalarNode('name')->isRequired()->cannotBeEmpty()->end()
+                        ->scalarNode('name')->defaultValue('default')->end()
                     ->end()
                 ->end()
                 ->arrayNode('models')

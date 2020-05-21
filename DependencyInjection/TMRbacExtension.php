@@ -77,6 +77,7 @@ class TMRbacExtension extends Extension
             $definition
                 ->addTag('kernel.event_listener', [
                     'event' => KernelEvents::CONTROLLER,
+                    'priority' => -10
                 ])
             ;
         }

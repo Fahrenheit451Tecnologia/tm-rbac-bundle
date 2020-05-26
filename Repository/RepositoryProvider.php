@@ -29,21 +29,29 @@ class RepositoryProvider
     private $userModelClassName;
 
     /**
+     * @var string
+     */
+    private $managerName;
+
+    /**
      * @param ManagerRegistry $registry
      * @param string $permissionModelClassName
      * @param string $roleModelClassName
      * @param string $userModelClassName
+     * @param string $managerName
      */
     public function __construct(
         ManagerRegistry $registry,
         string $permissionModelClassName,
         string $roleModelClassName,
-        string $userModelClassName
+        string $userModelClassName,
+        string $managerName
     ) {
         $this->registry = $registry;
         $this->permissionModelClassName = $permissionModelClassName;
         $this->roleModelClassName = $roleModelClassName;
         $this->userModelClassName = $userModelClassName;
+        $this->managerName = $managerName;
     }
 
     /**
@@ -76,7 +84,7 @@ class RepositoryProvider
      */
     private function getRepository(string $className) : ObjectRepository
     {
-        if (null === $manager = $this->registry->getManagerForClass($className)) {
+        if (null === $manager = $this->registry->getManager($this->managerName)) {
             throw new ManagerNotFoundForClassName($className);
         }
         

@@ -50,8 +50,17 @@ class PermissionVoter extends Voter
             return true;
         }
 
-        foreach ($token->getRoles() as $role) {
-            if ($attribute === $role->getRole()) {
+
+        foreach ($user->getUserRoles() as $role) {
+            foreach ($role->getPermissions() as $permission) {
+                if ($permission->getId() === $attribute) {
+                    return true;
+                }
+            }
+        }
+
+        foreach ($user->getUserPermissions() as $permission) {
+            if ($permission->getId() === $attribute) {
                 return true;
             }
         }

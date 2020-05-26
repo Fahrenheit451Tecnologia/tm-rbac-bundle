@@ -27,6 +27,9 @@ class TMRbacExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('tm_rbac.manager.name', $config['manager']['name']);
+        $container->setParameter('tm_rbac.entity_manager_name', sprintf('%_', $config['manager']['name']));
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
@@ -74,6 +77,7 @@ class TMRbacExtension extends Extension
             $definition
                 ->addTag('kernel.event_listener', [
                     'event' => KernelEvents::CONTROLLER,
+                    'priority' => -10
                 ])
             ;
         }

@@ -19,6 +19,7 @@ services:
             $permissionModelClassName: '%tm_rbac.model.permission.class%'
             $roleModelClassName: '%tm_rbac.model.role.class%'
             $userModelClassName: '%tm_rbac.model.user.class%'
+            $managerName: '%tm_rbac.manager.name%'
 
     TM\RbacBundle\EventListener\PermissionListener:
         arguments:

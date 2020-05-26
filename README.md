@@ -46,15 +46,15 @@ $ composer require timemanager/rbac-bundle
 
 ```php
 <?php
-// app/AppKernel.php
+// config/bundles.php
 
 public function registerBundles()
 {
-    $bundles = array(
-        // ...
-        new TM\RbacBundle\TMRbacBundle(),
-        // ...
-    );
+    return [
+        // ..
+        TM\RbacBundle\TMRbacBundle::class => ['all' => true],
+        //..
+    ];
 }
 ```
 
@@ -499,7 +499,7 @@ class User
 ### Step 7. Configure the TMRbacBundle
 
 ```yaml
-# app/config/config.yml
+# config/packages/tm_rbac.yml
 
 tm_rbac:
     models:
@@ -521,7 +521,9 @@ tm_rbac:
         //...
 ```
 
-### Step 8. Import TMRbacBundle routing
+### Step 8. Import TMRbacBundle routing (optional)
+
+You can create your own routes/controller
 
 ```yaml
 # app/config/routing.yml

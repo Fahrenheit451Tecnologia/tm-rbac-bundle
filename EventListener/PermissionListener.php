@@ -5,7 +5,7 @@ namespace TM\RbacBundle\EventListener;
 use Assert\Assertion;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Util\ClassUtils;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use TM\RbacBundle\Annotation\Permission;
@@ -46,9 +46,9 @@ class PermissionListener
     }
 
     /**
-     * @param FilterControllerEvent $event
+     * @param ControllerEvent $event
      */
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelController(ControllerEvent $event)
     {
         if (null === $permission = $this->getPermissionAnnotation($event->getController())) {
             return;

@@ -12,6 +12,11 @@ use TM\RbacBundle\Model\RoleInterface;
 use TM\RbacBundle\Model\UserInterface;
 use TM\RbacBundle\Repository\RepositoryProvider;
 
+/**
+ * Command for removing a role from a specific user
+ *
+ * @package TM\RbacBundle\Command
+ */
 class RemoveUserRoleCommand extends Command
 {
     /**
@@ -110,6 +115,8 @@ EOT
             $roleName,
             $username
         ));
+
+        return 0;
     }
 
     /**

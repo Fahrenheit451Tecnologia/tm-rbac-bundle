@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -14,6 +14,11 @@ use TM\RbacBundle\Model\PermissionInterface;
 use TM\RbacBundle\Model\RoleInterface;
 use TM\RbacBundle\Repository\RepositoryProvider;
 
+/**
+ * Sets a given permission to a given role.
+ *
+ * @package TM\RbacBundle\Command
+ */
 class AddPermissionsRoleCommand extends Command
 {
     /**
@@ -47,7 +52,7 @@ class AddPermissionsRoleCommand extends Command
             ->setHelp(<<<'EOT'
 The <info>tm:rbac:add-role-permission </info> command adds a permission to a role:
 
-  <info>php %command.full_name% juan</info>
+  <info>php %command.full_name% role</info>
   
 Permission argument can be an array or a string. Must pass the permission id.  
   
@@ -55,7 +60,7 @@ This interactive shell will ask you for a role name.
 
 You can alternatively specify the permission as the second argument:
 
-  <info>php %command.full_name% michael administrator</info>
+  <info>php %command.full_name% role permission</info>
 
 EOT
             )
@@ -92,7 +97,7 @@ EOT
         if (is_array($permissions)) {
             foreach ($permissions as $argument){
                 /** @var PermissionInterface $permission */
-                if (null === $permission = $permissionRepository->findOneBy(['id' => $argument])) {
+                if (null === $permission = $permissionRepository->findOneBy(['name' => $argument])) {
                     throw new \Exception(sprintf(
                         'Permission with name "%s" can not be found',
                         $argument
@@ -126,6 +131,8 @@ EOT
                 $role->getName()
             ));
         }
+
+        return 0;
     }
 
     /**

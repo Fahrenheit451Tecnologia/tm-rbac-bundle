@@ -10,6 +10,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use TM\RbacBundle\Repository\RepositoryProvider;
 
+/**
+ * Command for role deletion
+ *
+ * @package TM\RbacBundle\Command
+ */
 class DeleteRoleCommand extends Command
 {
     /**
@@ -98,6 +103,8 @@ EOT
             $role->getName(),
             $wasForced ? ' using <comment>force</comment> option' : ''
         ));
+
+        return 0;
     }
 
     /**

@@ -8,6 +8,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use TM\RbacBundle\Model\PermissionInterface;
 use TM\RbacBundle\Repository\RepositoryProvider;
 
+/**
+ * Checks defined permissions from `tm_rbac` configuration and deletes those no longer present and adds
+ * those not yet present on the data base.
+ *
+ * @package TM\RbacBundle\Command
+ */
 class InitializePermissionsCommand extends Command
 {
     /**
@@ -58,6 +64,8 @@ EOT
     {
         $this->purgeUnusedPermissions($output);
         $this->createNewPermissions($output);
+
+        return 0;
     }
 
     /**

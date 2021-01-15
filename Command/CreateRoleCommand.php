@@ -12,6 +12,11 @@ use Symfony\Component\Console\Question\Question;
 use TM\RbacBundle\Model\PermissionInterface;
 use TM\RbacBundle\Repository\RepositoryProvider;
 
+/**
+ * Command for role creation
+ *
+ * @package TM\RbacBundle\Command
+ */
 class CreateRoleCommand extends Command
 {
     /**
@@ -118,6 +123,8 @@ EOT
             $name,
             implode('", "', $permissions)
         ));
+
+        return 0;
     }
 
     /**

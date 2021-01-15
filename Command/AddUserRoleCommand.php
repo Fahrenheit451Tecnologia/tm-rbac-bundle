@@ -12,6 +12,11 @@ use TM\RbacBundle\Model\RoleInterface;
 use TM\RbacBundle\Model\UserInterface;
 use TM\RbacBundle\Repository\RepositoryProvider;
 
+/**
+ * Command for adding already created roles to users
+ *
+ * @package TM\RbacBundle\Command
+ */
 class AddUserRoleCommand extends Command
 {
     /**
@@ -98,6 +103,8 @@ EOT
             $role->getName(),
             $user->getUsername()
         ));
+
+        return 0;
     }
 
     /**

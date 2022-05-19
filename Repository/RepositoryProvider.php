@@ -2,8 +2,8 @@
 
 namespace TM\RbacBundle\Repository;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectRepository;
 use TM\RbacBundle\Exception\ManagerNotFoundForClassName;
 
 class RepositoryProvider
@@ -87,7 +87,7 @@ class RepositoryProvider
         if (null === $manager = $this->registry->getManager($this->managerName)) {
             throw new ManagerNotFoundForClassName($className);
         }
-        
+
         return $manager->getRepository($className);
     }
 }

@@ -27,7 +27,7 @@ Add this repository to your composer.json
     //..
     "repositories": [
         {
-            "type": "vcs",
+            "type": "github",
             "url": "https://github.com/Fahrenheit451Tecnologia/tm-rbac-bundle"
         }
     ],

@@ -2,7 +2,7 @@
 
 namespace TM\RbacBundle\Repository;
 
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use TM\RbacBundle\Model\PermissionInterface;
 use TM\RbacBundle\Model\RoleInterface;
 
